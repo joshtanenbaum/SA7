@@ -1,3 +1,4 @@
+/* eslint-disable no-multi-spaces */
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
@@ -7,7 +8,7 @@ import mongoose from 'mongoose';
 import * as Polls from './controllers/poll_controller';
 
 // DB Setup
-const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/cs52poll';
+const mongoURI = process.env.MONGODB_URI || 'mongodb://cs52sa7:cs52sa7@ds127646.mlab.com:27646/heroku_h0bsw7tg';
 mongoose.connect(mongoURI);
 // set mongoose promises to es6 default
 mongoose.Promise = global.Promise;
@@ -41,7 +42,7 @@ app.use(bodyParser.json());
 // routes
 app.get('/', (req, res) => {
   Polls.getPolls().then((polls) => {
-    res.render('index', { polls });
+    res.render('index', { polls });   // set ejs html on page for a given url (just like Switch, Route Route ... Route, Switch in react-redux)
   }).catch((error) => {
     res.send(`error: ${error}`);
   });
@@ -49,13 +50,13 @@ app.get('/', (req, res) => {
 
 
 app.get('/new', (req, res) => {
-  res.render('new');
+  res.render('new');    // set ejs html on page for a given url (just like Switch, Route Route ... Route, Switch in react-redux)
 });
 
 
-app.post('/new', (req, res) => {
+app.post('/new', (req, res) => {  // on this ejs trigger do this shit (just like Event Handler function (ex. OnMyClick()) in react-redux)
   const newpoll = {
-    text: req.body.text,
+    text: req.body.text, // params passed by the event are stored in req
     imageURL: req.body.imageURL,
   };
   Polls.createPoll(newpoll).then((poll) => {
@@ -65,9 +66,9 @@ app.post('/new', (req, res) => {
 
 
 app.post('/vote/:id', (req, res) => {
-  const vote = (req.body.vote === 'up');// convert to bool
+  const vote = (req.body.vote === 'up');
   Polls.vote(req.params.id, vote).then((result) => {
-    res.send(result);
+    res.send(result);   // return data grabbed from db to pg
   });
 });
 
